@@ -1,11 +1,19 @@
+import Counter from "@/views/Counter/Index"
+import { useState } from "react"
 import "./App.css"
-import Counter from "./views/Counter/Index"
 
 function App() {
+  const [display, setDisplay] = useState(true)
+
+  const handerUnmountComponent = () => {
+    setDisplay(!display)
+  }
+
   return (
     <div>
       <h1>Hello World!</h1>
-      <Counter />
+      <button onClick={handerUnmountComponent}>卸载 Counter</button>
+      {display && <Counter />}
     </div>
   )
 }
