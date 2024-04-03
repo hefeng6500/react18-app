@@ -1,35 +1,18 @@
-import store from "@/store"
-import { useEffect, useState } from "react"
+import { useAppDispatch, useAppSelector } from "@/hooks"
+import { decrement, increment, selectCount } from "./counterSlice"
 
 export default function Counter() {
-  const [value, setValue] = useState(store.getState().count)
+  // 使用 `useAppSelector` hook 使得 `state` 参数已经正确输入为 `RootState`
 
-  const handlerClickIncrement = () => {
-    store.dispatch({ type: "INCREMENT" })
-  }
+  // const count  = useAppSelector(state => state.counter.value)
+  // 直接使用 `selectCount` 代替 `state => state.counter.value`
+  const count = useAppSelector(selectCount)
 
-  const handlerClickDecrement = () => {
-    store.dispatch({ type: "DECREMENT" })
-  }
+  const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    console.log("测试每次渲染都会执行！")
-  }, [])
+  const handlerClickIncrement = () => dispatch(increment())
 
-  useEffect(() => {
-    console.log("Counter mounted!")
-
-    const unsubscribe = store.subscribe(() => {
-      // 当 Redux store 的状态发生变化时，更新组件的状态
-      setValue(store.getState().count)
-    })
-
-    return () => {
-      console.log("Counter Will Unmount!")
-      // 在组件卸载时取消订阅
-      unsubscribe()
-    }
-  }, [])
+  const handlerClickDecrement = () => dispatch(decrement())
 
   return (
     <div>
@@ -43,7 +26,7 @@ export default function Counter() {
           fontWeight: "bold",
         }}
       >
-        {value}
+        {count}
       </span>
       <button onClick={handlerClickDecrement}>Decrement</button>
     </div>

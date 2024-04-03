@@ -1,37 +1,10 @@
+import counterReducer from "@/views/Counter/counterSlice"
 import { configureStore } from "@reduxjs/toolkit"
 
-interface InitialState {
-  count: number
-}
-
-const initialState: InitialState = {
-  count: 0,
-}
-
-const reducer = (state = initialState, { type, payload }: any) => {
-  switch (type) {
-    case "INCREMENT":
-      return {
-        ...state,
-        count: state.count + 1,
-      }
-    case "DECREMENT":
-      return {
-        ...state,
-        count: state.count - 1,
-      }
-    case "INCREMENT_BY_AMOUNT":
-      return {
-        ...state,
-        count: state.count + payload,
-      }
-    default:
-      return state
-  }
-}
-
 const store = configureStore({
-  reducer,
+  reducer: {
+    counter: counterReducer,
+  },
 })
 
 export default store
